@@ -7,7 +7,7 @@ import java.util.stream.*;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
-class Solution {
+class SolutionProblem1 {
     /*
      * Complete the 'sockMerchant' function below.
      *
@@ -52,7 +52,7 @@ public class SalesByMatch {
                 .map(Integer::parseInt)
                 .collect(toList());
 
-        int result = Solution.sockMerchant(n, ar);
+        int result = SolutionProblem1.sockMerchant(n, ar);
 
         bufferedWriter.write(String.valueOf(result));
         bufferedWriter.newLine();
