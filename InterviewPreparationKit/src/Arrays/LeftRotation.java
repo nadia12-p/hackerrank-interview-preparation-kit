@@ -1,13 +1,7 @@
 package Arrays;
 
 import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
 import java.util.*;
-import java.util.concurrent.*;
-import java.util.function.*;
-import java.util.regex.*;
 import java.util.stream.*;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -25,13 +19,13 @@ class ArraysSolution1 {
 
     public static List<Integer> rotLeft(List<Integer> a, int d) {
         // Write your code here
-        List<Integer> b = new ArrayList<Integer>(a);
+        List<Integer> arr_rotated = new ArrayList<Integer>(a);
         for(int i = 0; i < a.size(); i++){
             int newLocation = (i + (a.size() - d)) % a.size();
-            b.set(newLocation, a.get(i));
+            arr_rotated.set(newLocation, a.get(i));
         }
 
-        return b;
+        return arr_rotated;
 
     }
 
