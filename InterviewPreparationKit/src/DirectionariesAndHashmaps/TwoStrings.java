@@ -27,25 +27,10 @@ class DirectionariesSolution1 {
 
     public static String twoStrings(String s1, String s2) {
         // Write your code here
-        HashMap<Character,Integer> chars = new HashMap<>();
 
-        for(int i = 0; i <s1.length(); i++ ) {
-            chars.put(s1.charAt(i),1);
-        }
-
-
-        for(int i = 0; i <s2.length(); i++ ) {
-            if (chars.containsKey(s2.charAt(i))) {
-                int old = 1;
-                chars.put(s2.charAt(i),old+1);
-            }
-            else {
-                chars.put(s2.charAt(i),1);
-            }
-
-            if (chars.containsValue(2)) {
-                return "YES";
-            }
+        for(char c : "abcdefghijklmnopqrstuvwxyz".toCharArray()) {
+            if(s1.indexOf(c) > -1 && s2.indexOf(c) > -1) {
+                return "YES"; }
         }
 
         return "NO";
