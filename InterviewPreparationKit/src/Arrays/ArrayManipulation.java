@@ -24,6 +24,7 @@ class ArraySolution4 {
 
     public static long arrayManipulation(int n, int m, List<List<Integer>> queries) {
         // Write your code here
+        /* MY SOLUTION -RAN OUT OF TIME
         long[] zeroesArray = new long[n];
         long max = Integer.MIN_VALUE;
         for (int i = 0; i < m; i++) {
@@ -34,9 +35,26 @@ class ArraySolution4 {
                 }
             }
         }
-
         System.out.println(max);
+         */
 
+        long [] array = new long[n + 1];
+        while (m-- > 0) {
+            int a = queries.get(m).get(0);
+            int b = queries.get(m).get(1);
+            int k = queries.get(m).get(2);
+            array[a-1] += k;
+            array[b]   -= k;
+        }
+
+        long sum = 0;
+        long max = 0;
+        for (int i = 0; i < n; i++) {
+            sum += array[i];
+            max = Math.max(max, sum);
+        }
+
+        //System.out.println(max);
 
         return max;
 
