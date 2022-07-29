@@ -14,37 +14,57 @@ import static java.util.stream.Collectors.toList;
 public class FrequencyQueries {
 
     // Complete the freqQuery function below.
-    static List<Integer> freqQuery(int[][] queries) {
+    static List<Integer> freqQuery(List<List<Integer>> queries) {
 
-        HashMap<Integer, Integer> array = new HashMap<>();
+        HashMap<Integer, Integer> elementFreq = new HashMap<>();
+        HashMap<Integer, Integer> freqCount = new HashMap<>();
         List<Integer> result = new ArrayList<>();
 
-        for (int i = 0; i < queries.length; i++) {
-            int operation = queries[i][0];
-            int data = queries[i][1];
+        for (int i = 0; i < queries.size(); i++) {
+            int operation = queries.get(i).get(0);
+            int data = queries.get(i).get(1);
 
             if (operation == 1) {
-                if (array.containsKey(data)) {
-                    int value = array.get(data);
-                    array.put(data, value + 1);
-                } else {
-                    array.put(data, 1);
+                if (freqCount.containsKey(elementFreq.get(data))) {
+                    int newValue = freqCount.get(elementFreq.get(data))-1;
+                    if (newValue == 0 ) {
+                        freqCount.remove(elementFreq.get(data));
+                    }
+                    else {
+                        freqCount.put(elementFreq.get(data), newValue);
+                    }
                 }
+                elementFreq.put(data,elementFreq.getOrDefault(data,0)+1);
+                freqCount.put(elementFreq.get(data),freqCount.getOrDefault(elementFreq.get(data),0)+1);
             }
-
-            if (operation == 2) {
-                if (array.containsKey(data)) {
-                    int value = array.get(data);
-                    array.put(data, value - 1);
+            else if (operation == 2) {
+                if (elementFreq.containsKey(data)) {
+                    int newValue = freqCount.get(elementFreq.get(data))-1;
+                    if (newValue == 0 ) {
+                        freqCount.remove(elementFreq.get(data));
+                    }
+                    else {
+                        freqCount.put(elementFreq.get(data), newValue);
+                    }
+                    int newValueElement = elementFreq.get(data)-1;
+                    if (newValueElement == 0 ) {
+                        elementFreq.remove(data);
+                    }
+                    else {
+                        elementFreq.put(data,newValueElement);
+                    }
+                    freqCount.put(elementFreq.get(data),freqCount.getOrDefault(elementFreq.get(data),0)+1);
                 }
-            }
 
-            if (operation == 3) {
-                if (array.containsValue(data)) {
+            }
+            else {
+                if (freqCount.containsKey(data) && freqCount.getOrDefault(data,0) != 0) {
                     result.add(1);
-                } else {
+                }
+                else {
                     result.add(0);
                 }
+
             }
 
         }
@@ -54,26 +74,35 @@ public class FrequencyQueries {
     }
 
     public static void main(String[] args) throws IOException {
-        try (BufferedReader bufferedReader = new BufferedReader(
-                new InputStreamReader(System.in))) {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("output.txt"));
 
-            int q = Integer.parseInt(bufferedReader.readLine().trim());
-            int[][] queries = new int[q][2];
+        int q = Integer.parseInt(bufferedReader.readLine().trim());
 
-            for (int i = 0; i < q; i++) {
-                String[] query = bufferedReader.readLine().split(" ");
-                queries[i][0] = Integer.parseInt(query[0]);
-                queries[i][1] = Integer.parseInt(query[1]);
+        List<List<Integer>> queries = new ArrayList<>();
+
+        IntStream.range(0, q).forEach(i -> {
+            try {
+                queries.add(
+                        Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+                                .map(Integer::parseInt)
+                                .collect(toList())
+                );
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
+        });
 
-            List<Integer> ans = freqQuery(queries);
+        List<Integer> ans = freqQuery(queries);
 
-            try (BufferedWriter bufferedWriter = new BufferedWriter(
-                    new FileWriter(System.getenv("OUTPUT_PATH")))) {
+        bufferedWriter.write(
+                ans.stream()
+                        .map(Object::toString)
+                        .collect(joining("\n"))
+                        + "\n"
+        );
 
-                bufferedWriter.write(ans.stream().map(Object::toString)
-                        .collect(joining("\n")) + "\n");
-            }
-        }
+        bufferedReader.close();
+        bufferedWriter.close();
     }
 }
